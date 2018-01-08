@@ -16,7 +16,7 @@ data = open(tabla, 'r')  # Lectura de datos
 datos = data.readlines()
 
 
-def traspaso(data):
+def traspaso(datos):
     "Traspasa los datos para trabajarlos"
     lista = []
     lista2 = []
@@ -39,6 +39,11 @@ def traspaso(data):
     theta = lista[:, 9]
     theta_e = lista[:, 10]
     Q = lista[:, 11]
-    return lista
-traspaso(datos)
-print 
+    return lista  # ver como retornar varios parametros
+    
+# traspaso(datos) corre funcion 1
+def grafos(lista):
+    "Genera graficos"
+    plt.figure(num=1)
+    plt.plot(lista[:, 3], lista[:, 0], 'k')
+
