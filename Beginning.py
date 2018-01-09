@@ -90,4 +90,4 @@ h, press, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, the, Q = data_transfer(datos)
 RHf, h_RH, Tf, h_T, O3, h_O3 = data_cleansing(h, press, tem, 
                                               RH, O3mPa, O3mPa, O3DU, u, v,
                                               th, the, Q)
-graphs(h_RH, h_T, h_O3, RHf, Tf, O3)
+graphs(h_RH, h_T, h_O3, RHf, Tf, O3) # arreglar graphos
