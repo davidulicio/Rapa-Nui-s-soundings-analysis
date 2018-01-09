@@ -8,16 +8,16 @@ DGF Uchile
 """
 import numpy as np
 import matplotlib.pyplot as plt
-print 'Trabajo de datos para Easter Island'
+print 'Easter Island´s analysis'
 # print 'Ingrese ubicacion (ruta de acceso) al archivo'
 # tabla = input()
 tabla = 'C:\Users\David\Desktop\\rapanui_19941123_V01.dat'
-data = open(tabla, 'r')  # Lectura de datos
+data = open(tabla, 'r')  # Data reading
 datos = data.readlines()
 
 
-def traspaso(datos):
-    "Traspasa los datos para trabajarlos"
+def data_transfer(datos):
+    "Transfer data from the file to the program"
     lista = []
     lista2 = []
     for i in range(len(datos)):
@@ -37,12 +37,34 @@ def traspaso(datos):
     u = lista[:, 7]
     v = lista[:, 8]
     th = lista[:, 9]
-    th_e = lista[:, 10]
+    the = lista[:, 10]
     Q = lista[:, 11]
-    return height, press, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, th_e, Q
-   
+    return height, press, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, the, Q
+
+
+def data_cleansing(h, p, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, the, Q):
+    "Detects and removes inaccurate records from each list"
+    RHf = []
+    h_RH = []
+    for i in range(len(RH)):
+        if float(RH[i]) != 9000:
+           RHf.append(RH[i])
+           h_RH.append(h[i])
+    Tf = []
+    h_T = []
+    for i in range(len(tem)):
+        if float(tem[i]) != 9000:
+           Tf.append(RH[i])
+           h_T.append(h[i])
+    O3 = []
+    h_O3 = []
+    for i in range(len(O3DU)):
+        if float(O3DU[i]) != 9000:
+           O3.append(O3DU[i])
+           h_O3.append(h[i])
+    return RHf, h_RH, Tf, h_T, O3, h_O3
     
-def grafos(h, RH, tem, Oz):
+def graphs(h1, h2, h3, RH, tem, Oz):
     "Genera graficos"
     """ fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -54,17 +76,18 @@ def grafos(h, RH, tem, Oz):
     ax.xaxis.label.set_color('red')
     ax.tick_params(axis='x', colors='red')"""
 
-    fig1 = plt.figure(num=1)
-    ax1 = fig1.add_subplot(111)
-    ax1.set_xlabel('RH%       Ozone(nbar)')
-    ax1.set_ylabel('Y-axis')
-    ax1.spines['bottom'].set_color('red')
-    plt.plot(RH, h, 'k', label='RH%')  # h vs RH
-    plt.plot(tem, h, 'r', label='Temperature')  # h vs T
-    plt.plot(Oz, h, 'b', label='Ozone(nbar)')  # h vs O3DU
+    plt.figure(num=1)
+    plt.xlabel('RH%       Temperature(Celcius)     Ozone(nbar)')
+    plt.ylabel('Altitude [km]')
+    plt.plot(RH, h1, 'k', label='RH%')  # h vs RH
+    plt.plot(tem, h2, 'r', label='Temperature in Celcius')  # h vs T
+    plt.plot(Oz, h3, 'b', label='Ozone(nbar)')  # h vs O3DU
     plt.legend()
     plt.show()
     
 " USO DE LAS FUNCIONES "
-h, press, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, th_e, Q = traspaso(datos)
-grafos(h, RH, tem, O3DU)
+h, press, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, the, Q = data_transfer(datos)
+RHf, h_RH, Tf, h_T, O3, h_O3 = data_cleansing(h, press, tem, 
+                                              RH, O3mPa, O3mPa, O3DU, u, v,
+                                              th, the, Q)
+graphs(h_RH, h_T, h_O3, RHf, Tf, O3)
