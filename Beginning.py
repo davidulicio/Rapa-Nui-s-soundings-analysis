@@ -28,22 +28,43 @@ def traspaso(datos):
         lista2.append(lis)
     lista = np.asarray(lista2)
     height = lista[:, 0]
-    pression = lista[:, 1]
-    temperature = lista[:, 2]
+    press = lista[:, 1]
+    tem = lista[:, 2]
     RH = lista[:, 3]
     O3mPa = lista[:, 4]
     O3ppbv = lista[:, 5]
     O3DU = lista[:, 6]
     u = lista[:, 7]
     v = lista[:, 8]
-    theta = lista[:, 9]
-    theta_e = lista[:, 10]
+    th = lista[:, 9]
+    th_e = lista[:, 10]
     Q = lista[:, 11]
-    return lista  # ver como retornar varios parametros
+    return height, press, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, th_e, Q
+   
     
-# traspaso(datos) corre funcion 1
-def grafos(lista):
+def grafos(h, RH, tem, Oz):
     "Genera graficos"
-    plt.figure(num=1)
-    plt.plot(lista[:, 3], lista[:, 0], 'k')
+    """ fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.plot(range(10))
+    ax.set_xlabel('X-axis')
+    ax.set_ylabel('Y-axis')
+    ax.spines['bottom'].set_color('red')
+    ax.spines['top'].set_color('red')
+    ax.xaxis.label.set_color('red')
+    ax.tick_params(axis='x', colors='red')"""
 
+    fig1 = plt.figure(num=1)
+    ax1 = fig1.add_subplot(111)
+    ax1.set_xlabel('RH%       Ozone(nbar)')
+    ax1.set_ylabel('Y-axis')
+    ax1.spines['bottom'].set_color('red')
+    plt.plot(RH, h, 'k', label='RH%')  # h vs RH
+    plt.plot(tem, h, 'r', label='Temperature')  # h vs T
+    plt.plot(Oz, h, 'b', label='Ozone(nbar)')  # h vs O3DU
+    plt.legend()
+    plt.show()
+    
+" USO DE LAS FUNCIONES "
+h, press, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, th_e, Q = traspaso(datos)
+grafos(h, RH, tem, O3DU)
