@@ -27,6 +27,9 @@ def date(tabla):
     day = []
     for value in tabla:
         i = i + 1
+        try:
+            val = float(value)
+        except:
         if type(value) == float:
             if i <= 4:
                 year.append(value)
@@ -91,7 +94,7 @@ def graphs(h1, h2, h3, RH, tem, Oz):
     "Genera graficos"
     plt.title('Rapa Nui (27° S, 109° W); Date: ' + '; CR2 / DMC archive')# + repr()
     plt.figure(num=1)
-    plt.xlabel(' Temperature(Celcius)          Ozone(nbar)     RH%')
+    plt.xlabel(' Temperature(Celcius)       Ozone(nbar)        RH%')
     plt.ylabel('Altitude [km]')
     plt.plot(RH, h1, 'k', label='RH%')  # h vs RH
     plt.plot(tem, h2, 'r', label='Temperature in Celcius')  # h vs T
