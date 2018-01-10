@@ -6,6 +6,9 @@ Rapa Nui's Soundings Analysis
 DGF Uchile
 
 """
+import sys  # Me funciona para los tildes
+reload(sys)  # si falla la codificación reaplicar reload
+sys.setdefaultencoding('utf-8')
 import numpy as np
 import matplotlib.pyplot as plt
 print 'Easter Island´s analysis'
@@ -14,6 +17,26 @@ print 'Easter Island´s analysis'
 tabla = 'C:\Users\David\Desktop\\rapanui_19941123_V01.dat'
 data = open(tabla, 'r')  # Data reading
 datos = data.readlines()
+
+
+def date(tabla):
+    "Find the date of the file"
+    i = 0
+    year = []
+    month = []
+    day = []
+    for value in tabla:
+        i = i + 1
+        if type(value) == float:
+            if i <= 4:
+                year.append(value)
+            if 4 < i <= 6:
+                month.append(value)
+            if 6 < i <= 8:
+                day.append(value)
+    print year, month, day
+            
+    
 
 
 def data_transfer(datos):
@@ -51,33 +74,24 @@ def data_cleansing(h, p, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, the, Q):
            RHf.append(RH[i])
            h_RH.append(h[i])
     Tf = []
-    h_T = []
+    h_T = [] 
     for i in range(len(tem)):
         if float(tem[i]) != 9000:
-           Tf.append(RH[i])
+           Tf.append(float(tem[i])-273.15)
            h_T.append(h[i])
     O3 = []
     h_O3 = []
-    for i in range(len(O3DU)):
-        if float(O3DU[i]) != 9000:
-           O3.append(O3DU[i])
+    for i in range(len(O3mPa)):
+        if float(O3mPa[i]) != 9000:
+           O3.append(float(O3mPa[i]) * 10)
            h_O3.append(h[i])
     return RHf, h_RH, Tf, h_T, O3, h_O3
     
 def graphs(h1, h2, h3, RH, tem, Oz):
     "Genera graficos"
-    """ fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.plot(range(10))
-    ax.set_xlabel('X-axis')
-    ax.set_ylabel('Y-axis')
-    ax.spines['bottom'].set_color('red')
-    ax.spines['top'].set_color('red')
-    ax.xaxis.label.set_color('red')
-    ax.tick_params(axis='x', colors='red')"""
-
+    plt.title('Rapa Nui (27° S, 109° W); Date: ' + '; CR2 / DMC archive')# + repr()
     plt.figure(num=1)
-    plt.xlabel('RH%       Temperature(Celcius)     Ozone(nbar)')
+    plt.xlabel(' Temperature(Celcius)          Ozone(nbar)     RH%')
     plt.ylabel('Altitude [km]')
     plt.plot(RH, h1, 'k', label='RH%')  # h vs RH
     plt.plot(tem, h2, 'r', label='Temperature in Celcius')  # h vs T
@@ -90,4 +104,5 @@ h, press, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, the, Q = data_transfer(datos)
 RHf, h_RH, Tf, h_T, O3, h_O3 = data_cleansing(h, press, tem, 
                                               RH, O3mPa, O3mPa, O3DU, u, v,
                                               th, the, Q)
-graphs(h_RH, h_T, h_O3, RHf, Tf, O3) # arreglar graphos
+graphs(h_RH, h_T, h_O3, RHf, Tf, O3)
+date(tabla)
