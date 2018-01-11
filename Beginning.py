@@ -26,21 +26,20 @@ def date(tabla):
     month = []
     day = []
     for value in tabla:
-        i = i + 1
         try:
-            val = float(value)
-        except:
-        if type(value) == float:
+            val = int(value)
+            i = i + 1
+            print val
             if i <= 4:
-                year.append(value)
+                year.append(val)
             if 4 < i <= 6:
-                month.append(value)
+                month.append(val)
             if 6 < i <= 8:
-                day.append(value)
-    print year, month, day
-            
+                day.append(val)         
+        except ValueError:
+            pass
+    print year, month, day         
     
-
 
 def data_transfer(datos):
     "Transfer data from the file to the program"
