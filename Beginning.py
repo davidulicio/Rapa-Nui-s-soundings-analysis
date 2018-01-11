@@ -6,15 +6,14 @@ Rapa Nui's Soundings Analysis
 DGF Uchile
 
 """
-import sys  # Me funciona para los tildes
-reload(sys)  # si falla la codificación reaplicar reload
-sys.setdefaultencoding('utf-8')
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
+reload(sys)
+sys.setdefaultencoding('utf-8')
 print 'Easter Island´s analysis'
-# print 'Ingrese ubicacion (ruta de acceso) al archivo'
-# tabla = input()
-tabla = 'C:\Users\David\Desktop\\rapanui_19941123_V01.dat'
+print 'Ingrese ubicacion (ruta de acceso) al archivo entre comillas'
+tabla = input()
 data = open(tabla, 'r')  # Data reading
 datos = data.readlines()
 
@@ -29,17 +28,19 @@ def date(tabla):
         try:
             val = int(value)
             i = i + 1
-            print val
             if i <= 4:
-                year.append(val)
+                year.append(str(val))
             if 4 < i <= 6:
-                month.append(val)
+                month.append(str(val))
             if 6 < i <= 8:
-                day.append(val)         
+                day.append(str(val))
         except ValueError:
             pass
-    print year, month, day         
-    
+    year = int("".join(year))
+    month = int("".join(month))
+    day = int("".join(day))
+    return year, month, day
+
 
 def data_transfer(datos):
     "Transfer data from the file to the program"
@@ -73,25 +74,27 @@ def data_cleansing(h, p, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, the, Q):
     h_RH = []
     for i in range(len(RH)):
         if float(RH[i]) != 9000:
-           RHf.append(RH[i])
-           h_RH.append(h[i])
+            RHf.append(RH[i])
+            h_RH.append(h[i])
     Tf = []
-    h_T = [] 
+    h_T = []
     for i in range(len(tem)):
         if float(tem[i]) != 9000:
-           Tf.append(float(tem[i])-273.15)
-           h_T.append(h[i])
+            Tf.append(float(tem[i]) - 273.15)
+            h_T.append(h[i])
     O3 = []
     h_O3 = []
     for i in range(len(O3mPa)):
         if float(O3mPa[i]) != 9000:
-           O3.append(float(O3mPa[i]) * 10)
-           h_O3.append(h[i])
+            O3.append(float(O3mPa[i]) * 10)
+            h_O3.append(h[i])
     return RHf, h_RH, Tf, h_T, O3, h_O3
-    
-def graphs(h1, h2, h3, RH, tem, Oz):
+
+
+def graphs(h1, h2, h3, RH, tem, Oz, y, m, d):
     "Genera graficos"
-    plt.title('Rapa Nui (27° S, 109° W); Date: ' + '; CR2 / DMC archive')# + repr()
+    plt.title('Rapa Nui (27° S, 109° W); Date: ' + repr(y) + '/' + repr(m) +
+              '/' + repr(d) + '; CR2 / DMC archive')
     plt.figure(num=1)
     plt.xlabel(' Temperature(Celcius)       Ozone(nbar)        RH%')
     plt.ylabel('Altitude [km]')
@@ -100,11 +103,11 @@ def graphs(h1, h2, h3, RH, tem, Oz):
     plt.plot(Oz, h3, 'b', label='Ozone(nbar)')  # h vs O3DU
     plt.legend()
     plt.show()
-    
+
 " USO DE LAS FUNCIONES "
 h, press, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, the, Q = data_transfer(datos)
-RHf, h_RH, Tf, h_T, O3, h_O3 = data_cleansing(h, press, tem, 
+RHf, h_RH, Tf, h_T, O3, h_O3 = data_cleansing(h, press, tem,
                                               RH, O3mPa, O3mPa, O3DU, u, v,
                                               th, the, Q)
-graphs(h_RH, h_T, h_O3, RHf, Tf, O3)
-date(tabla)
+y, m, d = date(tabla)
+graphs(h_RH, h_T, h_O3, RHf, Tf, O3, y, m, d)
