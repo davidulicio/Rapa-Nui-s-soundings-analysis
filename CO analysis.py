@@ -8,10 +8,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 data = open(r'C:\Users\David\Desktop\Geofísica\Práctica\COeicMonth1.txt', 'r')
 datos = data.readlines()
+dat = open(r'C:\Users\David\Desktop\Geofísica\Práctica\COeicEvent.txt', 'r')
+datos1 = dat.readlines()
 
-
-def data_transfer(datos):
-    "Transfer data from the file to the program"
+def data_transfer_E (datos1):
+    "Transfer data from the file to the program, Events analysis"
+    
+def data_transfer_M(datos):
+    "Transfer data from the file to the program, Month analysis"
     lista = []
     JA = []
     FE = []
@@ -62,7 +66,7 @@ def data_transfer(datos):
     return year, month, co, JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC
 
 
-def means(JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC):
+def Statistics_M(JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC):
     """
     Calculation of the average per month and  each standard desviation
     Inputs: CO concentration values for each month since 1994
@@ -80,11 +84,24 @@ def means(JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC):
     O = np.mean(np.array(OC))
     N = np.mean(np.array(NV))
     D = np.mean(np.array(DC))
+    Es = np.std(np.array(JA))
+    Fs = np.std(np.array(FE))
+    Ms = np.std(np.array(MR))
+    As = np.std(np.array(AP))
+    MOs = np.std(np.array(MY))
+    JIs = np.std(np.array(JN))
+    JYs = np.std(np.array(JL))
+    AOs = np.std(np.array(AG))
+    Ss = np.std(np.array(SP))
+    Os = np.std(np.array(OC))
+    Ns = np.std(np.array(NV))
+    Ds = np.std(np.array(DC))  
     Prom = [E, F, M, A, MO, JI, JY, AO, S, O, N, D]
-    return Prom
+    STD = [Es, Fs, Ms, As, MOs, JIs, JYs, AOs, Ss, Os, Ns, Ds]
+    return Prom, STD
 
 
-def arreglo(Prom):
+def arreglo_M(Prom):
     "Least squares fit of the data"
     x1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     P = np.array(Prom)
@@ -93,7 +110,7 @@ def arreglo(Prom):
     return z
     
 
-def plots(Prom, z):
+def plots_M(Prom, STD, z):
     "Plots CO concentrations vs time"
     x = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
          'Sep', 'Oct', 'Nov', 'Dec']
@@ -109,9 +126,19 @@ def plots(Prom, z):
     plt.plot(x1, y1(x1), 'r-', label='Least Squares Fit')
     plt.legend()
     plt.show()
+    plt.figure(num=2)
+    plt.title('Easter Island, Chile; Carbon Cycle Surface\n\
+    (Sample Intake Height: 69 masl)', multialignment='center')
+    plt.ylabel('CO [nmol / mol]')
+    plt.xlabel('Months')
+    plt.xticks(x1, x)
+    plt.errorbar(x1, Prom, STD, label='Average Seasonal Cycle and\n\
+    its standard desviation') 
+    plt.legend()
+    plt.show()
 "Uso de las funciones"
-y, m, co, JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC = data_transfer(datos)
-Prom = means(JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC)
-z = arreglo(Prom)
-plots(Prom, z)
+y, m, co, JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC = data_transfer_M(datos)
+Prom, std = Statistics_M(JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC)
+z = arreglo_M(Prom)
+plots_M(Prom, std, z)
 
