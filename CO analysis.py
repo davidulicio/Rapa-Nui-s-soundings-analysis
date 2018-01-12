@@ -8,6 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 data = open(r'C:\Users\David\Desktop\Geofísica\Práctica\COeicMonth1.txt', 'r')
 datos = data.readlines()
+
+
 def data_transfer(datos):
     "Transfer data from the file to the program"
     lista = []
@@ -81,7 +83,17 @@ def means(JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC):
     Prom = [E, F, M, A, MO, JI, JY, AO, S, O, N, D]
     return Prom
 
-def plots(Prom):
+
+def arreglo(Prom):
+    "Least squares fit of the data"
+    x1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    P = np.array(Prom)
+    x = np.array(x1)
+    z = np.polyfit(x, P, 4)  # Least Squares 4th degree polynomial fit
+    return z
+    
+
+def plots(Prom, z):
     "Plots CO concentrations vs time"
     x = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
          'Sep', 'Oct', 'Nov', 'Dec']
@@ -93,10 +105,13 @@ def plots(Prom):
     (Sample Intake Height: 69 masl)', multialignment='center')
     plt.ylabel('CO [nmol / mol]')
     plt.xlabel('Months')
+    y1 = np.poly1d(z)
+    plt.plot(x1, y1(x1), 'r-', label='Least Squares Fit')
     plt.legend()
     plt.show()
 "Uso de las funciones"
 y, m, co, JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC = data_transfer(datos)
 Prom = means(JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC)
-plots(Prom)
+z = arreglo(Prom)
+plots(Prom, z)
 
