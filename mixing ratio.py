@@ -157,27 +157,23 @@ def means(pf, cf):
     return prop_fecha, co_fecha
 
 
-"""def plots(prop, co):
+def plots(prop, co):
     x = np.linspace(1, 12, 12)
     x1 = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-    fig, ax = plt.subplots(2, 2)
-    plt.figure(num=1)
-    plt.subplot(2,1,2)
-    plt.plot(x, prop, 'b-', label='Propane concentration')
-    plt.title('CO and propane monthly average, Rapa Nui')
-    plt.ylabel('pmol/mol')
-    plt.xticks(x, x1)
-    plt.show()
-    plt.subplot(2, 1, 2)
-    plt.plot(x, co, 'y-', label='CO concentration')
-    plt.ylabel('pmol/mol')
-    plt.xticks(x, x1)
-    plt.legend()
-    plt.show()"""
+    fig, (ax1, ax2) = plt.subplots(2, sharex=True, figsize=(8,6))
+    ax1.plot(x, prop, 'b-', label='Propane concentration')
+    ax1.set_title('CO and propane monthly average, Rapa Nui')
+    ax1.set_ylabel('pmol/mol')
+    ax1.legend()
+    ax2.plot(x, co, 'y-', label='CO concentration')
+    ax2.set_ylabel('pmol/mol')
+    ax2.legend()
+    plt.setp((ax1, ax2), xticks=x, xticklabels=x1)
+    fig.show()
 fecha, prop = data_transfer_p(data)
 DAT, co = data_transfer_co(dat)
 pf, cf = average_season(fecha, DAT, prop, co)
 prop_fecha, co_fecha = means(pf, cf)
-#plots(prop_fecha, co_fecha)
+plots(prop_fecha, co_fecha)
 print('co monthly values: ' + repr(co_fecha))
 print('propane monthly values: ' + repr(prop_fecha))
