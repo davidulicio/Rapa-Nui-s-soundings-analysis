@@ -211,6 +211,7 @@ def Statistics_M(JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC):
     Ns = np.std(np.array(NV))
     Ds = np.std(np.array(DC))  
     Prom = [E, F, M, A, MO, JI, JY, AO, S, O, N, D]
+    Prom = np.multiply(Prom, 1000)  # nmol/mol  ->  pmol/mol
     STD = [Es, Fs, Ms, As, MOs, JIs, JYs, AOs, Ss, Os, Ns, Ds]
     return Prom, STD
 
@@ -247,13 +248,13 @@ def means(pf, cf):
 
 
 def plots(prop, co, Prom, STD):
+    # CO and Propane monthly average concentrations
     x = np.linspace(1, 12, 12)
-    Prom = np.multiply(Prom, 1000)  # nmol/mol  ->  pmol/mol
     x1 = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP',
           'OCT', 'NOV', 'DEC']
     fig, (ax1, ax2, ax3) = plt.subplots(3, sharex=True, figsize=(8, 6))
     ax1.plot(x, prop, 'b-', label='Propane concentration')
-    ax1.set_title('CO and propane monthly average, Rapa Nui')
+    ax1.set_title('CO and propane monthly average concentrations, Rapa Nui')
     ax1.set_ylabel('pmol/mol')
     ax1.legend()
     ax2.plot(x, co, 'y-', label='CO concentration calculated from every single event')
@@ -264,6 +265,20 @@ def plots(prop, co, Prom, STD):
     ax3.set_ylabel('pmol/mol')
     ax3.legend()
     plt.setp((ax1, ax2, ax3), xticks=x, xticklabels=x1)
+    # CO and propane mixing ratio
+    fig, (ax1, ax2) = plt.subplots(2, sharex=True, figsize=(10, 8))
+    division_M = np.divide(prop, Prom)
+    division_E = np.divide(prop, co)
+    ax1.set_title('CO and propane mixing ratio, Rapa Nui')
+    ax1.set_ylabel('CO/Propane calculated from\n\
+    every single event')
+    ax1.plot(x, division_E)
+    ax1.legend()
+    ax2.plot(x, division_M, 'y-')
+    ax2.set_ylabel('CO/Propane calculated from montly average\n\
+    given by NOAA ESRL Global Monitoring Division')
+    plt.setp((ax1, ax2), xticks=x, xticklabels=x1)
+    
     
 
 
