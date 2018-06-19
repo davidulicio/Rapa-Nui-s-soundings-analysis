@@ -4,10 +4,9 @@ Rapa Nui
 @author: David Trejo Cancino
 """
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 dat = pd.read_excel(r'C:\Users\David\Desktop\Rapa Nui Complete dataset\EasterIsland.xlsx', header=0)
-
 "Functions"
 
 
@@ -32,6 +31,16 @@ def data_transfer_E(dat):
     return dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb
 
 
+def nan_spot(value):
+    "Spots NaN values in the raw data"
+    nanlist=[]
+    for ii in range(len(value)):
+        if np.isnan(value[ii]):
+            nanlist.append(ii)
+        if value[ii] == "":
+            nanlist.append(ii)
+    return nanlist
+        
 def prom(date, value):
     "Calculate the mean average concentration of every day of the data"
     datec = []
@@ -39,13 +48,13 @@ def prom(date, value):
     for i in range(len(date)-1):
         value1 = date[i]
         value2 = date[i+1]
-        if value1 not in datec:
+        if value1 not in datec and value1 > date[0]:  # Eliminate NaN and duplicate values
             if value1 == value2:
                 valor = (value[i] + value[i+1]) / 2
-                valuec.append(valor)
+                valuec.append(float("{0:.2f}".format(valor,2)))
                 datec.append(value1)
             if value1 != value2:
-                valuec.append(CO[i])
+                valuec.append(float("{0:.2f}".format(value[i],2)))
                 datec.append(value1)
     datec = pd.Series(datec)
     
@@ -53,6 +62,7 @@ def prom(date, value):
 
 
 def plots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb):
+    "Plot timeseries and histogram for the given data"
     plt.figure(num=1)
     plt.plot(dCO, CO, label='CO events')
     plt.title('CO timeseries, Easter Island')
@@ -94,15 +104,52 @@ def plots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb):
     plt.xlabel('Years')
     plt.ylabel('pmol/mol')
     plt.figure(num=9)
-    plt.hist(np.histogram(CO), bins='auto')
+    plt.hist(CO, bins='auto', label='histogram with raw data')
+    plt.title('CO histogram')
+    plt.xlabel('nmol/mol')
+    plt.figure(num=10)
+    plt.hist(CO2, bins='auto', label='histogram with raw data')
+    plt.title('CO2 histogram')
+    plt.xlabel('ppm')
+    plt.figure(num=11)
+    plt.hist(P, bins='auto', label='histogram with raw data')
+    plt.title('Propane histogram')
+    plt.xlabel('pmol/mol')
+    plt.figure(num=12)
+    plt.hist(nP, bins='auto', label='histogram with raw data')
+    plt.title('n-pentane histogram')
+    plt.xlabel('pmol/mol')
+    plt.figure(num=13)
+    plt.hist(nb, bins='auto', label='histogram with raw data')
+    plt.title('n-butane histogram')
+    plt.xlabel('pmol/mol')
+    plt.figure(num=14)
+    plt.hist(nb, bins='auto', label='histogram with raw data')
+    plt.title('Ethane histogram')
+    plt.xlabel('pmol/mol')
+    plt.figure(num=15)
+    plt.hist(nb, bins='auto', label='histogram with raw data')
+    plt.title('Methylpropane histogram')
+    plt.xlabel('pmol/mol')
+    plt.figure(num=16)
+    plt.hist(nb, bins='auto', label='histogram with raw data')
+    plt.title('Methylbutane histogram')
+    plt.xlabel('pmol/mol')
+    
     
     
 "Use of the functions"
+# Transfer the data to the idle
 dCO, CO, dCO2, CO2, dP, P, dNP, NP, dNB, NB, dE, E, dMP, MP, dMB, MB = data_transfer_E(dat)
+# Calculate the mean average for every vocs 
 co, dco = prom(dCO, CO)
 co2, dco2 = prom(dCO2, CO2)
+nanlistco2 = nan_spot(co2)
 p, dp = prom(dP, P)
 nP, dnP = prom(dNP, NP)
 nb, dnb = prom(dNB, NB)
-co2, dco2 = prom(dCO2, CO2)
-plots(dco, co, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb)
+e, de = prom(dE, E)
+mp, dmp = prom(dMP, MP)
+mb, dmb = prom(dMB, MB)
+# Plot timeseries and histogram of every vocs
+plots(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, e, dmp, mp, dmb, mb)
