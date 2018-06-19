@@ -42,24 +42,12 @@ def prom(date, value):
         if value1 not in datec and value1 > date[0]:  # Eliminate NaN and duplicate values
             if value1 == value2:
                 valor = (value[i] + value[i+1]) / 2
-                valuec.append(float("{0:.2f}".format(valor,2)))
+                valuec.append(float("{0:.2f}".format(valor, 2)))
                 datec.append(value1)
             if value1 != value2:
-                valuec.append(float("{0:.2f}".format(value[i],2)))
+                valuec.append(float("{0:.2f}".format(value[i], 2)))
                 datec.append(value1)
     datec = pd.Series(datec)
-    return valuec, datec
-
-
-def nan_spot(value):
-    "Spots NaN values in the raw data"
-    nanlist=[]
-    for ii in range(len(value)):
-        if np.isnan(value[ii]):
-            nanlist.append(ii)
-        if value[ii] == "":
-            nanlist.append(ii)
-    return nanlist
 
 
 def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb):
@@ -128,11 +116,11 @@ def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp,
     axhmb.hist(mp, bins=70)
     axhmb.set_xlabel('pmol/mol')
     axhmb.set_title('Metylbutane histogram with raw data')
-        
+
 "Use of the functions"
 # Transfer the data to the idle
 dCO, CO, dCO2, CO2, dP, P, dNP, NP, dNB, NB, dE, E, dMP, MP, dMB, MB = data_transfer_E(dat)
-# Calculate the mean average for every vocs 
+# Calculate the mean average for every vocs
 co, dco = prom(dCO, CO)
 co2, dco2 = prom(dCO2, CO2)
 co2 = np.asarray(co2)
@@ -142,8 +130,5 @@ nb, dnb = prom(dNB, NB)
 e, de = prom(dE, E)
 mp, dmp = prom(dMP, MP)
 mb, dmb = prom(dMB, MB)
-nanlistnP = nan_spot(nP)
 # Plot timeseries and histogram of every vocs
 subplots_without_dc(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, e, dmp, mp, dmb, mb)
-
-   
