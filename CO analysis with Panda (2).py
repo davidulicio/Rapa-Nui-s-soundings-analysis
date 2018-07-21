@@ -6,13 +6,12 @@ Rapa Nui's Soundings Analysis, Carbon Monoxide
 """
 import numpy as np
 import matplotlib.pyplot as plt
-import datetime
-data = open(r'C:\Users\David\Desktop\Geofísica\Práctica\COeicMonth1.txt', 'r')
+import pandas as pd
+data = open(r'/home/cr2practica/Escritorio/Práctica/COeicMonth1.txt', 'r')
 datos = data.readlines()
-dat = open(r'C:\Users\David\Desktop\Geofísica\Práctica\COeicEvent1.txt', 'r')
-datos1 = dat.readlines()
+dat = pd.read_excel(r'/home/cr2practica/Escritorio/Práctica/COeicEvent.xlsx', header=0)
 
-def data_transfer_E(datos1):
+"""def data_transfer_E(datos1):
     "Transfer data from the file to the program, Events analysis"
     lista = []
     for value in datos1:
@@ -25,7 +24,23 @@ def data_transfer_E(datos1):
     day = np.str(lista[:, 2])
     co = np.str(lista[:, 6])
     return year, month, day, co, y
-    
+    """
+   
+
+def data_transfer_E(dat):
+    year = dat['sample_year']
+    month = dat['sample_month']
+    day = dat['sample_day']
+    co = dat['analysis_value']
+    co = co / 1000
+    date = []
+    for i in range(len(year)):
+        y = year[i]
+        m = month[i]
+        d = day[i]
+        fecha = repr(y) + '-' + repr(m) + '-' + repr(d)
+        date.append(fecha)
+    return date, co
 
 def data_transfer_M(datos):
     "Transfer data from the file to the program, Month analysis"
@@ -138,6 +153,7 @@ def plots_M(Prom, STD, z):
     y1 = np.poly1d(z)
     plt.plot(x1, y1(x1), 'r-', label='Least Squares Fit')
     plt.legend()
+    plt.grid()
     plt.show()
     plt.figure(num=2, figsize=(8,6))
     plt.title('Easter Island, Chile; Carbon Cycle Surface\n\
@@ -145,13 +161,53 @@ def plots_M(Prom, STD, z):
     plt.ylabel('CO [nmol / mol]')
     plt.xlabel('Months')
     plt.xticks(x1, x)
-    plt.errorbar(x1, Prom, STD, label='Average Seasonal Cycle and\n\
-    its standard desviation') 
+    plt.errorbar(x1, Prom, STD, ecolor='r', label='Average Seasonal Cycle and\n\
+                 its standard desviation') 
     plt.legend()
+    plt.grid()
     plt.show()
 
 
-def plots_E(year, month, day, co, y1):
+def plots_E(date, co):
+    da = []
+    ta = []
+    t = []
+    T = []
+    for i in range(len(co)):
+        if co[i] < 0:
+            co[i] = 0
+        if 0 <= co[i] < 200:
+            da.append(co[i])
+            T.append(date[i])
+        else:
+            ta.append(co[i])
+            t.append(date[i])
+    plt.figure(num=1)
+    plt.title('Easter Island, Chile')    
+    plt.plot(T, da, 'b*', label='Regionally representative data')
+    plt.ylabel('(CO) Carbon monoxide (nmol/mol)')
+    plt.xlabel('Years')
+    plt.plot(t, ta, 'r*', label='Poorly mixed air masses influenced by local\n\
+    or regional anthropogenic sources')
+    plt.ylabel('(CO) Carbon monoxide (nmol/mol)')
+    plt.xlabel('Years')
+    plt.xticks([])
+    #datelist = pd.date_range(start='1994-01', end='2016-12', freq='1m')
+    plt.legend()
+    plt.show()
+    plt.figure(num=2)
+    plt.title('Easter Island, Chile')    
+    plt.plot(T, da, 'b*', label='Regionally representative data')
+    dt = np.linspace(1,1763, len(T))
+    plt.xticks(dt, T)  # Solves black line in the x-axis
+    plt.margins(0.2)
+    plt.subplots_adjust(bottom=0.15)
+    plt.ylabel('(CO) Carbon monoxide (nmol/mol)')
+    plt.xlabel('Years')
+    plt.xticks([])
+    plt.legend()
+    plt.show()
+"""def plots_E(year, month, day, co, y1):
     x = ''
     for value in y1:
         x.join(str(value))
@@ -162,11 +218,11 @@ def plots_E(year, month, day, co, y1):
     d = [datetime.datetime.strptime(elem, '%d') for elem in day]
     plt.figure(num=3, figsize=(8,6))
     plt.title('CO time series')
-    plt.plot(y, co, '-*')
+    plt.plot(y, co, '-*')"""
 "Uso de las funciones"
 y, m, co, JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC = data_transfer_M(datos)
 Prom, std = Statistics_M(JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC)
 z = arreglo_M(Prom)
 plots_M(Prom, std, z)
-y, m, d, co, y1 = data_transfer_E(datos1)
-plots_E(y, m, d, co, y1)
+date, co_e = data_transfer_E(dat)
+plots_E (date, co_e)

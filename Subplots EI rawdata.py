@@ -6,7 +6,7 @@ Rapa Nui
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-dat = pd.read_excel(r'C:\Users\David\Desktop\Rapa Nui Complete dataset\EasterIsland.xlsx', header=0)
+dat = pd.read_excel(r'C:\Users\David\Desktop\Rapa Nui Complete dataset\RapaNui.xlsx', header=0)
 
 "Functions"
 
@@ -14,21 +14,21 @@ dat = pd.read_excel(r'C:\Users\David\Desktop\Rapa Nui Complete dataset\EasterIsl
 def data_transfer_E(dat):
     "Transfer data from the excel file to python"
     dCO = dat['CO date']
-    CO = dat['CO']
+    CO = dat['CO'] / 1000
     dCO2 = pd.Series(dat['CO2 date'])
-    CO2 = dat['CO2']
+    CO2 = dat['CO2'] / 1000
     dP = pd.Series(dat['Propane date'])
-    P = dat['Propane']
+    P = dat['Propane'] / 1000
     dnp = pd.Series(dat['n-pentane date'])
-    nP = dat['n-pentane']
+    nP = dat['n-pentane'] / 1000
     dnb = pd.Series(dat['n-butane date'])
-    nb = dat['n-butane']
+    nb = dat['n-butane'] / 1000
     de = pd.Series(dat['ethane date'])
-    e = dat['ethane']
+    e = dat['ethane'] / 1000
     dmp = pd.Series(dat['methylpropane date'])
-    mp = dat['methylpropane']
+    mp = dat['methylpropane'] / 1000
     dmb = pd.Series(dat['methylbutane date'])
-    mb = dat['methylbutane']
+    mb = dat['methylbutane'] / 1000
     return dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb
 
 
@@ -57,9 +57,9 @@ def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp,
     axtco.plot(dCO, CO)
     axtco.set_title('CO timeseries, Easter Island')
     axtco.set_xlabel('Years')
-    axtco.set_ylabel('nmol/mol')
+    axtco.set_ylabel('nmol/mol (ppb)')
     axhco.hist(CO, bins=70)
-    axhco.set_xlabel('nmol/mol')
+    axhco.set_xlabel('nmol/mol (ppb)')
     axhco.set_title('CO histogram with raw data')
     fig2, (axtco2, axhco2) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
     axtco2.plot(dCO2, CO2)
@@ -132,4 +132,5 @@ e, de = prom(dE, E)
 mp, dmp = prom(dMP, MP)
 mb, dmb = prom(dMB, MB)
 # Plot timeseries and histogram of every vocs
-subplots_without_dc(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, e, dmp, mp, dmb, mb)
+subplots_without_dc(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, 
+                    e, dmp, mp, dmb, mb)

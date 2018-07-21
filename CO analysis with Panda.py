@@ -6,13 +6,12 @@ Rapa Nui's Soundings Analysis, Carbon Monoxide
 """
 import numpy as np
 import matplotlib.pyplot as plt
-import datetime
+import pandas as pd
 data = open(r'C:\Users\David\Desktop\Geofísica\Práctica\COeicMonth1.txt', 'r')
 datos = data.readlines()
-dat = open(r'C:\Users\David\Desktop\Geofísica\Práctica\COeicEvent1.txt', 'r')
-datos1 = dat.readlines()
+dat = pd.read_excel(r'C:\Users\David\Desktop\Geofísica\Práctica\COeicEvent.xlsx', header=0)
 
-def data_transfer_E(datos1):
+"""def data_transfer_E(datos1):
     "Transfer data from the file to the program, Events analysis"
     lista = []
     for value in datos1:
@@ -25,7 +24,23 @@ def data_transfer_E(datos1):
     day = np.str(lista[:, 2])
     co = np.str(lista[:, 6])
     return year, month, day, co, y
-    
+    """
+   
+
+def data_transfer_E(dat):
+    year = dat['sample_year']
+    month = dat['sample_month']
+    day = dat['sample_day']
+    co = dat['analysis_value']
+    co = co / 1000
+    date = []
+    for i in range(len(year)):
+        y = year[i]
+        m = month[i]
+        d = day[i]
+        fecha = repr(y) + '-' + repr(m) + '-' + repr(d)
+        date.append(fecha)
+    return date, co
 
 def data_transfer_M(datos):
     "Transfer data from the file to the program, Month analysis"
@@ -151,7 +166,19 @@ def plots_M(Prom, STD, z):
     plt.show()
 
 
-def plots_E(year, month, day, co, y1):
+"""def plots_E(date, co):
+    df = pd.DataFrame(date)
+    for i in range(len(co)):
+        if co[i] < 0:
+            df.
+        if co[i] > 200:
+            
+            
+    plt.plot(df, co, '*-')
+    plt.ylabel('(CO) Carbon monoxide (nmol/mol)')
+    plt.xlabel('Years')
+    plt.show()"""
+"""def plots_E(year, month, day, co, y1):
     x = ''
     for value in y1:
         x.join(str(value))
@@ -162,11 +189,11 @@ def plots_E(year, month, day, co, y1):
     d = [datetime.datetime.strptime(elem, '%d') for elem in day]
     plt.figure(num=3, figsize=(8,6))
     plt.title('CO time series')
-    plt.plot(y, co, '-*')
+    plt.plot(y, co, '-*')"""
 "Uso de las funciones"
 y, m, co, JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC = data_transfer_M(datos)
 Prom, std = Statistics_M(JA, FE, MR, AP, MY, JN, JL, AG, SP, OC, NV, DC)
 z = arreglo_M(Prom)
 plots_M(Prom, std, z)
-y, m, d, co, y1 = data_transfer_E(datos1)
-plots_E(y, m, d, co, y1)
+date, co_e = data_transfer_E(dat)
+#plots_E (date, co_e)

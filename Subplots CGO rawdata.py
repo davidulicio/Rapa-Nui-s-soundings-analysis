@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Rapa Nui
+Cape Grim
 @author: David Trejo Cancino
 """
+
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
-dat = pd.read_excel(r'C:\Users\David\Desktop\Rapa Nui Complete dataset\EasterIsland.xlsx', header=0)
+dat = pd.read_excel(r'C:\Users\David\Desktop\Cape Grim, Tazmania\Cape Grim.xlsx', header=0)
 
 "Functions"
 
@@ -14,21 +14,21 @@ dat = pd.read_excel(r'C:\Users\David\Desktop\Rapa Nui Complete dataset\EasterIsl
 def data_transfer_E(dat):
     "Transfer data from the excel file to python"
     dCO = dat['CO date']
-    CO = dat['CO']
+    CO = dat['CO'] / 1000
     dCO2 = pd.Series(dat['CO2 date'])
-    CO2 = dat['CO2']
+    CO2 = dat['CO2'] / 1000
     dP = pd.Series(dat['Propane date'])
-    P = dat['Propane']
+    P = dat['Propane'] / 1000
     dnp = pd.Series(dat['n-pentane date'])
-    nP = dat['n-pentane']
+    nP = dat['n-pentane'] / 1000
     dnb = pd.Series(dat['n-butane date'])
-    nb = dat['n-butane']
+    nb = dat['n-butane'] / 1000
     de = pd.Series(dat['ethane date'])
-    e = dat['ethane']
+    e = dat['ethane'] / 1000
     dmp = pd.Series(dat['methylpropane date'])
-    mp = dat['methylpropane']
+    mp = dat['methylpropane'] / 1000
     dmb = pd.Series(dat['methylbutane date'])
-    mb = dat['methylbutane']
+    mb = dat['methylbutane'] / 1000
     return dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb
 
 
@@ -52,10 +52,10 @@ def prom(date, value):
 
 
 def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb):
-    "Generates timeseries and histogram plots for every vocs in Easter Island"
+    "Generates timeseries and histogram plots for every vocs in Cape Grim"
     fig1, (axtco, axhco) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
     axtco.plot(dCO, CO)
-    axtco.set_title('CO timeseries, Easter Island')
+    axtco.set_title('CO timeseries, Cape Grim')
     axtco.set_xlabel('Years')
     axtco.set_ylabel('nmol/mol')
     axhco.hist(CO, bins=70)
@@ -63,7 +63,7 @@ def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp,
     axhco.set_title('CO histogram with raw data')
     fig2, (axtco2, axhco2) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
     axtco2.plot(dCO2, CO2)
-    axtco2.set_title('CO2 timeseries, Easter Island')
+    axtco2.set_title('CO2 timeseries, Cape Grim')
     axtco2.set_xlabel('Years')
     axtco2.set_ylabel('ppm')
     axhco2.hist(CO2, bins=70)
@@ -71,7 +71,7 @@ def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp,
     axhco2.set_title('CO2 histogram with raw data')
     fig3, (axtp, axhp) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
     axtp.plot(dP, P)
-    axtp.set_title('Propane timeseries, Easter Island')
+    axtp.set_title('Propane timeseries, Cape Grim')
     axtp.set_xlabel('Years')
     axtp.set_ylabel('pmol/mol')
     axhp.hist(P, bins=70)
@@ -79,7 +79,7 @@ def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp,
     axhp.set_title('Propane histogram with raw data')
     fig4, (axtnp, axhnp) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
     axtnp.plot(dnp, nP)
-    axtnp.set_title('n-pentane timeseries, Easter Island')
+    axtnp.set_title('n-pentane timeseries, Cape Grim')
     axtnp.set_xlabel('Years')
     axtnp.set_ylabel('pmol/mol')
     axhnp.hist(nP, bins=70)
@@ -87,7 +87,7 @@ def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp,
     axhnp.set_title('n-pentane histogram with raw data')
     fig5, (axtnb, axhnb) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
     axtnb.plot(dnb, nb)
-    axtnb.set_title('n-butane timeseries, Easter Island')
+    axtnb.set_title('n-butane timeseries, Cape Grim')
     axtnb.set_xlabel('Years')
     axtnb.set_ylabel('pmol/mol')
     axhnb.hist(nb, bins='auto')
@@ -95,7 +95,7 @@ def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp,
     axhnb.set_title('n-butane histogram with raw data')
     fig6, (axte, axhe) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
     axte.plot(de, e)
-    axte.set_title('Ethane timeseries, Easter Island')
+    axte.set_title('Ethane timeseries, Cape Grim')
     axte.set_xlabel('Years')
     axte.set_ylabel('pmol/mol')
     axhe.hist(e, bins=70)
@@ -103,7 +103,7 @@ def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp,
     axhe.set_title('Ethane histogram with raw data')
     fig7, (axtmp, axhmp) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
     axtmp.plot(dmp, mp)
-    axtmp.set_title('Methylpropane timeseries, Easter Island')
+    axtmp.set_title('Methylpropane timeseries, Cape Grim')
     axtmp.set_xlabel('Years')
     axtmp.set_ylabel('pmol/mol')
     axhmp.hist(mp, bins=70)
@@ -111,7 +111,7 @@ def subplots_without_dc(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp,
     axhmp.set_title('Metylpropane histogram with raw data')
     fig8, (axtmb, axhmb) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
     axtmb.plot(dmb, mb)
-    axtmb.set_title('Methylbutane timeseries, Easter Island')
+    axtmb.set_title('Methylbutane timeseries, Cape Grim')
     axtmb.set_xlabel('Years')
     axtmb.set_ylabel('pmol/mol')
     axhmb.hist(mp, bins=70)

@@ -6,14 +6,12 @@ Rapa Nui's Soundings Analysis
 DGF Uchile
 
 """
-import sys
 import numpy as np
 import matplotlib.pyplot as plt
-reload(sys)
-sys.setdefaultencoding('utf-8')
-print 'Easter Island´s analysis'
-print 'Ingrese ubicacion (ruta de acceso) al archivo entre comillas'
-tabla = input()
+print ('Easter Island´s analysis')
+print ('Ingrese ubicacion (ruta de acceso) al archivo entre comillas')
+#tabla = input()
+tabla = r'C:\Users\David\Desktop\Ozono CR2\uno\rapanui_19941123_V01.dat'
 data = open(tabla, 'r')  # Data reading
 datos = data.readlines()
 
@@ -120,7 +118,10 @@ def graphs(h1, h2, h3, h4, h5, RH, tem, Oz, u, v, y, m, d):
     ax2.set_xlim(-40, 80)
     ax1.legend()
     ax2.legend()
-    f.show()
+    ax1.xticks([])
+    ax1.show()
+    ax2.show()
+    
 
 " USO DE LAS FUNCIONES "
 h, press, tem, RH, O3mPa, O3ppbv, O3DU, u, v, th, the, Q = data_transfer(datos)
