@@ -5,7 +5,6 @@ Rapa Nui
 """
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 dat = pd.read_excel(r'C:\Users\David\Desktop\Rapa Nui Complete dataset\RapaNui.xlsx', header=0)
 
 "Functions"
