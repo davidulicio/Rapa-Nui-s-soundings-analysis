@@ -5,9 +5,8 @@ Rapa Nui
 """
 import pandas as pd
 import matplotlib.pyplot as plt
-from data_uso import data_transfer_E, prom, spring
+from data_uso import data_transfer_E, prom
 from rawEI import subplots
-
 dat = pd.read_excel(r'C:\Users\David\Box Sync\Rapa Nui Complete dataset\RapaNui.xlsx', header=0)
 
 "Functions"
@@ -92,8 +91,9 @@ e, de = prom(dE, E)
 mp, dmp = prom(dMP, MP)
 mb, dmb = prom(dMB, MB)
 # Plot timeseries and histogram of every vocs
-subplots_without_dc(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, 
+subplots(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, 
                     e, dmp, mp, dmb, mb)
+"""
 dco, co = spring(dco, co)
 dco2, co2 = spring(dco2, co2)
 dp, p = spring(dp, p)
@@ -104,3 +104,4 @@ dmp, mp = spring(dmp, mp)
 dmb, mb = spring(dmb, mb)
 spring_subplots(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, e, dmp, mp,
                 dmb, mb)
+"""

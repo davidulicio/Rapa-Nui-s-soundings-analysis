@@ -6,10 +6,10 @@ Easter Island Analysis
 
 import pandas as pd
 import matplotlib.pyplot as plt
-dat = pd.read_excel(r'C:\Users\David\Desktop\Rapa Nui Complete dataset\RapaNui.xlsx', header=0)
+
+dat = pd.read_excel(r'C:\Users\David\Box Sync\Rapa Nui Complete dataset\RapaNui.xlsx', header=0)
 
 "Functions"
-
 
 def data_transfer_E(dat):
     "Transfer data from the excel file to python"
@@ -126,7 +126,6 @@ def data_cleansing(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de,
             NB.append(value)
             DNB.append(date)
     return DCO, CO, DCO2, CO2, DP, P, DNP, NP, DNB, NB, DE, E, DMP, MP, DMB, MB
-
 
 def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb):
     "Generates timeseries and histogram plots for every vocs in Easter Island"

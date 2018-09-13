@@ -5,10 +5,10 @@ Cape Grim
 """
 
 import pandas as pd
-import matplotlib.pyplot as plt
 from data_uso import data_transfer_E, prom
+from rawCGO import subplots
 
-dat = pd.read_excel(r'C:\Users\David\Desktop\Cape Grim, Tazmania\Cape Grim.xlsx', header=0)
+dat = pd.read_excel(r'C:\Users\David\Box Sync\Cape Grim, Tazmania\Cape Grim.xlsx', header=0)
 
 
 "Use of the functions"
@@ -24,4 +24,4 @@ e, de = prom(dE, E)
 mp, dmp = prom(dMP, MP)
 mb, dmb = prom(dMB, MB)
 # Plot timeseries and histogram of every vocs
-subplots_without_dc(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, e, dmp, mp, dmb, mb)
+subplots(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, e, dmp, mp, dmb, mb)
