@@ -4,11 +4,11 @@ Rapa Nui's vocs analysis
 @author: David Trejo Cancino
 """
 import pandas as pd
-
+import numpy as np
 
 def data_transfer_E(dat):
     "Transfer data from the excel file to python"
-    dCO = dat['CO date']
+    dCO = pd.to_datetime(dat['CO date'])
     CO = dat['CO'] / 1000
     dCO2 = pd.Series(dat['CO2 date'])
     CO2 = dat['CO2'] / 1000
@@ -42,32 +42,68 @@ def prom(date, value):
             if value1 != value2:
                 valuec.append(float("{0:.2f}".format(value[i], 2)))
                 datec.append(value1)
-    datec = pd.Series(datec)
+    #valuec = pd.Series(valuec)
+    datec = pd.to_datetime(datec)
     return valuec, datec
 
-def spring(date, value):
-    valores = []
-    fechas = []
-    sept = []
-    oct = []
+def meses(date, value):
+    "Splits the concentration values in each month"
+    en = []
+    feb = []
+    mar = []
+    abr = []
+    may = []
+    jun = []
+    jul = []
+    ag = []
+    sep = []
+    octu = []
     nov = []
     dic = []
     for i in range(len(date)):
         fecha = date[i]
         valor = value[i]
         m = fecha.month
-        d = fecha.day
-        if m == 10:
-            sept
-        if m == 10 or m==11:
-            fechas.append(fecha) 
-            valores.append(valor)
+        #d = fecha.day  para obtener el dia en caso de necesitarlo
+        if m == 1:
+            en.append(valor)
+        if m == 2:
+            feb.append(valor)
+        if m == 3:
+            mar.append(valor)
+        if m == 4:
+            abr.append(valor)
+        if m == 5:
+            may.append(valor)
+        if m == 6:
+            jun.append(valor)
+        if m == 7:
+            jul.append(valor)
+        if m == 8:
+            ag.append(valor)
         if m == 9:
-            if d >= 21:
-                fechas.append(fecha)
-                valores.append(valor)
+            sep.append(valor)
+        if m == 10:
+            octu.append(valor)
+        if m == 11:
+            nov.append(valor)
         if m == 12:
-            if d <= 21:
-                fechas.append(fecha)
-                valores.append(valor)
-    return fechas, valores
+            dic.append(valor)
+    return en, feb, mar, abr, may, jun, jul, ag, sep, octu, nov, dic
+
+
+def media(e, f, m, ab, my, jn, jl, ag, s, o, n, d):
+    E = np.mean(np.asarray(e))
+    F = np.mean(np.asarray(f))
+    M = np.mean(np.asarray(m))
+    AB = np.mean(np.asarray(ab))
+    MY = np.mean(np.asarray(my))
+    JN = np.mean(np.asarray(jn))
+    JL = np.mean(np.asarray(jl))
+    AG = np.mean(np.asarray(ag))
+    S = np.mean(np.asarray(s))
+    O = np.mean(np.asarray(o))
+    N = np.mean(np.asarray(n))
+    D = np.mean(np.asarray(d))
+    year = [E, F, M, AB, MY, JN, JL, AG, S, O, N, D]
+    return year

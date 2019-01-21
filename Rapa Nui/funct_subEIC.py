@@ -3,10 +3,13 @@
 Rapa Nui's data subplots with data cleansing 
 @author: David
 """
+import numpy as np
 import matplotlib.pyplot as plt
+import calendar
 
 
-def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb):
+def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e,\
+             dmp, mp, dmb, mb):
     """
     Generates timeseries and histogram plots for every vocs in Easter Island
     with the cleaned data
@@ -16,7 +19,7 @@ def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, m
     axtco.set_title('CO timeseries, Easter Island')
     axtco.set_xlabel('Years')
     axtco.set_ylabel('nmol/mol (ppb)')
-    axhco.hist(CO, bins=70)
+    axhco.hist(CO, bins=20)
     axhco.set_xlabel('nmol/mol (ppb)')
     axhco.set_title('CO histogram')
     fig2, (axtco2, axhco2) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -24,7 +27,7 @@ def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, m
     axtco2.set_title('CO2 timeseries, Easter Island')
     axtco2.set_xlabel('Years')
     axtco2.set_ylabel('ppm')
-    axhco2.hist(CO2, bins=70)
+    axhco2.hist(CO2, bins=20)
     axhco2.set_xlabel('ppm')
     axhco2.set_title('CO2 histogram')
     fig3, (axtp, axhp) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -32,7 +35,7 @@ def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, m
     axtp.set_title('Propane timeseries, Easter Island')
     axtp.set_xlabel('Years')
     axtp.set_ylabel('pmol/mol')
-    axhp.hist(P, bins=70)
+    axhp.hist(P, bins=20)
     axhp.set_xlabel('pmol/mol')
     axhp.set_title('Propane histogram')
     fig4, (axtnp, axhnp) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -40,7 +43,7 @@ def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, m
     axtnp.set_title('n-pentane timeseries, Easter Island')
     axtnp.set_xlabel('Years')
     axtnp.set_ylabel('pmol/mol')
-    axhnp.hist(nP, bins=70)
+    axhnp.hist(nP, bins=20)
     axhnp.set_xlabel('pmol/mol')
     axhnp.set_title('n-pentane histogram')
     fig5, (axtnb, axhnb) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -56,7 +59,7 @@ def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, m
     axte.set_title('Ethane timeseries, Easter Island')
     axte.set_xlabel('Years')
     axte.set_ylabel('pmol/mol')
-    axhe.hist(e, bins=70)
+    axhe.hist(e, bins=20)
     axhe.set_xlabel('pmol/mol')
     axhe.set_title('Ethane histogram')
     fig7, (axtmp, axhmp) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -64,7 +67,7 @@ def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, m
     axtmp.set_title('Methylpropane timeseries, Easter Island')
     axtmp.set_xlabel('Years')
     axtmp.set_ylabel('pmol/mol')
-    axhmp.hist(mp, bins=70)
+    axhmp.hist(mp, bins=20)
     axhmp.set_xlabel('pmol/mol')
     axhmp.set_title('Metylpropane histogram')
     fig8, (axtmb, axhmb) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -72,6 +75,23 @@ def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, m
     axtmb.set_title('Methylbutane timeseries, Easter Island')
     axtmb.set_xlabel('Years')
     axtmb.set_ylabel('pmol/mol')
-    axhmb.hist(mp, bins=70)
+    axhmb.hist(mp, bins=20)
     axhmb.set_xlabel('pmol/mol')
     axhmb.set_title('Metylbutane histogram')
+
+
+def mixing_ratios(co, value, nombre):
+    "Plots mixing ratios of a voc vs co with their months averages"
+    t = np.linspace(1,12,12)
+    co = np.asarray(co)
+    value = np.asarray(value)
+    mx_rat = co/value
+    plt.figure(figsize=(8,6))
+    plt.plot(t, mx_rat, '*--')
+    plt.title('Mixing ratio between CO and ' + nombre)
+    plt.ylabel('Ratio')
+    plt.xlabel('Months')
+    plt.xticks(t, calendar.month_abbr[1:13], rotation=45)
+
+    
+    
