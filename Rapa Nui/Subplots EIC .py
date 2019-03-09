@@ -5,19 +5,20 @@ Easter Island Analysis
 """
 import calendar
 import pandas as pd
+import scipy as sp
+import scipy.signal as ss
 import matplotlib.pyplot as plt
 import numpy
 from data_uso import data_transfer_E, prom, meses, media
 from cleansing_eic import data_cleansing, hist_clean
 from funct_subEIC import subplots, mixing_ratios
 
-directoriow = r'C:\Users\David\Box Sync\Rapa Nui Complete dataset\RapaNui.xlsx'
-dat = pd.read_excel(directoriow, header=0)
+directoriow = pd.read_excel(r'RapaNui.xlsx', header=0)
 
 "Use of the imported functions"
 # The next line transfers the data to the idle
 dCO, CO, dCO2, CO2, dP, P, dNP, NP, dNB, NB, dE, E, dMP, MP, dMB,\
- MB = data_transfer_E(dat)
+ MB = data_transfer_E(directoriow)
 # The following ones calculates the mean average for every vocs
 co, dco = prom(dCO, CO)
 co2, dco2 = prom(dCO2, CO2)
@@ -35,7 +36,24 @@ dNP, NP = hist_clean(dnP,nP)
 dNB, NB = hist_clean(dnb,nb)
 dE, E = hist_clean(de,e)
 dMP, MP = hist_clean(dmp,mp)
-dMB, MB = hist_clean(dmb,mb) 
+dMB, MB = hist_clean(dmb,mb)
+meanco = sp.mean(CO)
+meanco2 = sp.mean(CO2)
+meanp = sp.mean(P)
+meannp = sp.mean(NP)
+meannb = sp.mean(NB)
+meane = sp.mean(E)
+meanmp = sp.mean(MP)
+meanmb = sp.mean(MB)
+# Detrending the data for each voc
+CO = ss.detrend(CO) + meanco
+CO2 = ss.detrend(CO2) + meanco2
+P = ss.detrend(P) + meanp
+NP = ss.detrend(NP) + meannp
+NB = ss.detrend(NB) + meannb
+E = ss.detrend(E) + meane
+MP = ss.detrend(MP) + meanmp
+MB = ss.detrend(MB) + meanmb
 subplots(dCO, CO, dCO2, CO2, dP, P, dNP, NP, dNB, NB, dE, E, dMP, MP, dMB, MB)
 
 "Monthly Concentrations"

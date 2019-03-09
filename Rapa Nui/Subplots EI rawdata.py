@@ -7,8 +7,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from data_uso import data_transfer_E, prom
 from rawEI import subplots
-dat = pd.read_excel(r'C:\Users\David\Box Sync\Rapa Nui Complete dataset\RapaNui.xlsx', header=0)
-
+#dat = pd.read_excel(r'C:\Users\David\Box Sync\Rapa Nui Complete dataset\RapaNui.xlsx', header=0)
+dat= pd.read_excel(r'RapaNui.xlsx', header=0)
 "Functions"
 
 def spring_subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp, dmb, mb):
@@ -18,7 +18,7 @@ def spring_subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp,
     axtco.set_title('Spring CO timeseries, Easter Island')
     axtco.set_xlabel('Years')
     axtco.set_ylabel('nmol/mol (ppb)')
-    axhco.hist(CO, bins=70)
+    axhco.hist(CO, bins=20)
     axhco.set_xlabel('nmol/mol (ppb)')
     axhco.set_title('Spring CO histogram with raw data')
     fig2, (axtco2, axhco2) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -26,7 +26,7 @@ def spring_subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp,
     axtco2.set_title('Spring CO2 timeseries, Easter Island')
     axtco2.set_xlabel('Years')
     axtco2.set_ylabel('ppm')
-    axhco2.hist(CO2, bins=70)
+    axhco2.hist(CO2, bins=20)
     axhco2.set_xlabel('ppm')
     axhco2.set_title('Spring CO2 histogram with raw data')
     fig3, (axtp, axhp) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -34,7 +34,7 @@ def spring_subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp,
     axtp.set_title('Spring Propane timeseries, Easter Island')
     axtp.set_xlabel('Years')
     axtp.set_ylabel('pmol/mol')
-    axhp.hist(P, bins=70)
+    axhp.hist(P, bins=20)
     axhp.set_xlabel('pmol/mol')
     axhp.set_title('Spring Propane histogram with raw data')
     fig4, (axtnp, axhnp) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -42,7 +42,7 @@ def spring_subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp,
     axtnp.set_title('Spring n-pentane timeseries, Easter Island')
     axtnp.set_xlabel('Years')
     axtnp.set_ylabel('pmol/mol')
-    axhnp.hist(nP, bins=70)
+    axhnp.hist(nP, bins=20)
     axhnp.set_xlabel('pmol/mol')
     axhnp.set_title('Spring n-pentane histogram with raw data')
     fig5, (axtnb, axhnb) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -58,7 +58,7 @@ def spring_subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp,
     axte.set_title('Spring Ethane timeseries, Easter Island')
     axte.set_xlabel('Years')
     axte.set_ylabel('pmol/mol')
-    axhe.hist(e, bins=70)
+    axhe.hist(e, bins=20)
     axhe.set_xlabel('pmol/mol')
     axhe.set_title('Spring Ethane histogram with raw data')
     fig7, (axtmp, axhmp) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -66,7 +66,7 @@ def spring_subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp,
     axtmp.set_title('Spring Methylpropane timeseries, Easter Island')
     axtmp.set_xlabel('Years')
     axtmp.set_ylabel('pmol/mol')
-    axhmp.hist(mp, bins=70)
+    axhmp.hist(mp, bins=20)
     axhmp.set_xlabel('pmol/mol')
     axhmp.set_title('Spring Metylpropane histogram with raw data')
     fig8, (axtmb, axhmb) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -74,7 +74,7 @@ def spring_subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e, dmp, mp,
     axtmb.set_title('Spring Methylbutane timeseries, Easter Island')
     axtmb.set_xlabel('Years')
     axtmb.set_ylabel('pmol/mol')
-    axhmb.hist(mp, bins=70)
+    axhmb.hist(mp, bins=20)
     axhmb.set_xlabel('pmol/mol')
     axhmb.set_title('Spring Metylbutane histogram with raw data')
 

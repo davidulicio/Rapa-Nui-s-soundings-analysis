@@ -51,7 +51,7 @@ def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e,\
     axtnb.set_title('n-butane timeseries, Easter Island')
     axtnb.set_xlabel('Years')
     axtnb.set_ylabel('pmol/mol')
-    axhnb.hist(nb, bins='auto')
+    axhnb.hist(nb, bins=20)
     axhnb.set_xlabel('pmol/mol')
     axhnb.set_title('n-butane histogram')
     fig6, (axte, axhe) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
@@ -92,6 +92,4 @@ def mixing_ratios(co, value, nombre):
     plt.ylabel('Ratio')
     plt.xlabel('Months')
     plt.xticks(t, calendar.month_abbr[1:13], rotation=45)
-
-    
     

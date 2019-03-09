@@ -34,7 +34,8 @@ def prom(date, value):
     for i in range(len(date)-1):
         value1 = date[i]
         value2 = date[i+1]
-        if value1 not in datec and value1 > date[0]:  # Eliminate NaN and duplicate values
+        if value1 not in datec and value1 > date[0]:
+            # Removes NaN and duplicate values
             if value1 == value2:
                 valor = (value[i] + value[i+1]) / 2
                 valuec.append(float("{0:.2f}".format(valor, 2)))

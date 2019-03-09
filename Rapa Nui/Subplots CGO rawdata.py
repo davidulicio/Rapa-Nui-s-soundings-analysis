@@ -7,13 +7,14 @@ Cape Grim
 import pandas as pd
 from data_uso import data_transfer_E, prom
 from rawCGO import subplots
-from pdtimeseries import timeser_pd
-dat = pd.read_excel(r'C:\Users\David\Box Sync\Cape Grim, Tazmania\Cape Grim.xlsx', header=0)
+#from pdtimeseries import timeser_pd
+dat = pd.read_excel(r'Cape Grim.xlsx', header=0)
 
 
 "Use of the functions"
 # Transfer the data to the idle
-dCO, CO, dCO2, CO2, dP, P, dNP, NP, dNB, NB, dE, E, dMP, MP, dMB, MB = data_transfer_E(dat)
+dCO, CO, dCO2, CO2, dP, P, dNP, NP, dNB, NB, dE, E, dMP,\
+ MP, dMB, MB = data_transfer_E(dat)
 # Calculate the mean average for every vocs
 co, dco = prom(dCO, CO)
 co2, dco2 = prom(dCO2, CO2)
@@ -25,4 +26,3 @@ mp, dmp = prom(dMP, MP)
 mb, dmb = prom(dMB, MB)
 # Plot timeseries and histogram of every vocs
 subplots(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, e, dmp, mp, dmb, mb)
-#timeser_pd(dCO)
