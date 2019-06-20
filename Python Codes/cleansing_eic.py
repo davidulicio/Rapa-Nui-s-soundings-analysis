@@ -60,73 +60,89 @@ def data_cleansing(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de,
     # co filter
     DCO = []
     CO = []
+    MIN = np.nanmean(co)-3*np.nanstd(co)
+    MAX = np.nanmean(co)+3*np.nanstd(co)
     for i in range(len(co)):
         value = co[i]
         date = dco[i]
-        if 40 <= value <= 100:
+        if MIN <= value <= MAX:
             CO.append(value)
             DCO.append(date)
     # co2 filter
     DCO2 = []
     CO2 = []
+    MIN = np.nanmean(co2)-3*np.nanstd(co2)
+    MAX = np.nanmean(co2)+3*np.nanstd(co2)
     for i in range(len(co2)):
         value = co2[i]
         date = dco2[i]
-        if 200 <= value <= 405:
+        if MIN <= value <= MAX:
             CO2.append(value)
             DCO2.append(date)
     # ethane filter
     DE = []
     E = []
+    MIN = np.nanmean(e)-3*np.nanstd(e)
+    MAX = np.nanmean(e)+3*np.nanstd(e)
     for i in range(len(e)):
         value = e[i]
         date = de[i]
-        if 50 <= value <= 500:
+        if MIN <= value <= MAX:
             E.append(value)
             DE.append(date)
     # propane filter
     DP = []
     P = []
+    MIN = np.nanmean(p)-3*np.nanstd(p)
+    MAX = np.nanmean(p)+3*np.nanstd(p)
     for i in range(len(p)):
         value = p[i]
         date = dp[i]
-        if 0 <= value <= 1000:
+        if MIN <= value <= MAX:
             P.append(value)
             DP.append(date)
     # methylbutane filter
     DMB = []
     MB = []
+    MIN = np.nanmean(mb)-3*np.nanstd(mb)
+    MAX = np.nanmean(mb)+3*np.nanstd(mb)
     for i in range(len(mb)):
         value = mb[i]
         date = dmb[i]
-        if 0 <= value <= 600:
+        if MIN <= value <= MAX:
             MB.append(value)
             DMB.append(date)
     # methylpropane filter
     DMP = []
     MP = []
+    MIN = np.nanmean(mp)-3*np.nanstd(mp)
+    MAX = np.nanmean(mp)+3*np.nanstd(mp)
     for i in range(len(mp)):
         value = mp[i]
         date = dmp[i]
-        if 0 <= value <= 160:
+        if MIN <= value <= MAX:
             MP.append(value)
             DMP.append(date)
     # n-pentane filter
     DNP = []
     NP = []
+    MIN = np.nanmean(nP)-3*np.nanstd(nP)
+    MAX = np.nanmean(nP)+3*np.nanstd(nP)
     for i in range(len(nP)):
         value = nP[i]
         date = dnP[i]
-        if 0 <= value <= 300:
+        if MIN <= value <= MAX:
             NP.append(value)
             DNP.append(date)
     # n-butane filter
     DNB = []
     NB = []
+    MIN = np.nanmean(nb)-3*np.nanstd(nb)
+    MAX = np.nanmean(nb)+3*np.nanstd(nb)
     for i in range(len(nb)):
         value = nb[i]
         date = dnb[i]
-        if 0 <= value <= 350:
+        if MIN <= value <= MAX:
             NB.append(value)
             DNB.append(date)
     return DCO, CO, DCO2, CO2, DP, P, DNP, NP, DNB, NB, DE, E, DMP, MP, DMB, MB

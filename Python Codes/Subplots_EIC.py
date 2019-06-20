@@ -9,11 +9,12 @@ import scipy as sp
 import scipy.signal as ss
 import matplotlib.pyplot as plt
 import numpy
+from sklearn.linear_model import LinearRegression
 from data_uso import data_transfer_E, prom, meses, media
 from cleansing_eic import data_cleansing, hist_clean
 from funct_subEIC import subplots, mixing_ratios, example_clean
 from ozone import yearOZ
-
+#%% Data reading and simple statistics
 directoriow = pd.read_excel(r'RapaNui.xlsx', header=0)
 #directoriow = pd.read_excel(r'Easter_Island.xlsx', header=0)
 "Use of the imported functions"
@@ -29,16 +30,18 @@ nb, dnb = prom(dNB, NB)
 e, de = prom(dE, E)
 mp, dmp = prom(dMP, MP)
 mb, dmb = prom(dMB, MB)
-
 # The following lines clean the data for a better analysis
-dCO, CO = hist_clean(dco,co)
-dCO2, CO2 = hist_clean(dco2,co2)
-dP, P = hist_clean(dp,p)
-dNP, NP = hist_clean(dnP,nP)
-dNB, NB = hist_clean(dnb,nb)
-dE, E = hist_clean(de,e)
-dMP, MP = hist_clean(dmp,mp)
-dMB, MB = hist_clean(dmb,mb)
+dCO, CO, dCO2, CO2, dP, P, dNP, NP, dNB, NB, dE, E, dMP, MP, \
+dMB, MB = data_cleansing(dco, co, dco2, co2, dp, p, dnP, nP, dnb,\
+                         nb, de, e, dmp, mp, dmb, mb)
+dCO, CO = hist_clean(dCO,CO)
+dCO2, CO2 = hist_clean(dCO2,CO2)
+dP, P = hist_clean(dP,P)
+dNP, NP = hist_clean(dNP,NP)
+dNB, NB = hist_clean(dNB,NB)
+dE, E = hist_clean(dE,E)
+dMP, MP = hist_clean(dMP,MP)
+dMB, MB = hist_clean(dMB,MB)
 meanco = sp.nanmean(CO)
 meanco2 = sp.nanmean(CO2)
 meanp = sp.nanmean(P)
@@ -47,6 +50,7 @@ meannb = sp.nanmean(NB)
 meane = sp.nanmean(E)
 meanmp = sp.nanmean(MP)
 meanmb = sp.nanmean(MB)
+#%% Detrends
 # Detrending the data for each voc
 CO = ss.detrend(CO) + meanco
 CO2 = ss.detrend(CO2) + meanco2
@@ -58,7 +62,7 @@ MP = ss.detrend(MP) + meanmp
 MB = ss.detrend(MB) + meanmb
 example_clean(dco2, co2, dCO2, CO2)
 subplots(dCO, CO, dCO2, CO2, dP, P, dNP, NP, dNB, NB, dE, E, dMP, MP, dMB, MB)
-
+#%% Monthly concentrations plots
 "Monthly Concentrations"
 t = numpy.linspace(1, 12, 12)
 'CO Monthly concentrations'
@@ -192,12 +196,12 @@ axhmb.boxplot(yearMB)
 axhmb.set_xlabel('Months')
 axhmb.set_title('Methylbutane filtered monthly concentrations, EIC')
 plt.xticks(t, calendar.month_abbr[1:13], rotation=45)
-
+#%% Some extra figures
 'LAST FIGURE FOR ANALYSIS'
 fig7, axes = plt.subplots(nrows=1, ncols=3, figsize=(15, 5))
 oz = axes[0]
 eth = axes[1]
-carbdiox = axes[2]
+carbmonx = axes[2]
 oz.boxplot(yearOZ)
 oz.set_title('Ozone monthly concentrations, EIC')
 oz.set_xlabel('Months')
@@ -206,10 +210,10 @@ eth.boxplot(yearE)
 eth.set_title('Ethane monthly concentrations, EIC')
 eth.set_xlabel('Months')
 eth.set_ylabel('pmol/mol')
-carbdiox.boxplot(yearE)
-carbdiox.set_title('CO monthly concentrations, EIC')
-carbdiox.set_xlabel('Months')
-carbdiox.set_ylabel('ppbv')
+carbmonx.boxplot(yearCO)
+carbmonx.set_title('CO monthly concentrations, EIC')
+carbmonx.set_xlabel('Months')
+carbmonx.set_ylabel('ppbv')
 plt.xticks(t, calendar.month_abbr[1:13], rotation=45)
 
 'Example of cleansing'
@@ -225,3 +229,15 @@ plt.xticks(t, calendar.month_abbr[1:13], rotation=45)
 #mixing_ratios(yearCO, yearE, 'Ethane')
 #mixing_ratios(yearCO, yearMP, 'Methylpropane')
 #mixing_ratios(yearCO, yearMB, 'Methylbutane')
+#%% Regression
+#date=numpy.asarray(dCO).reshape((-1, 1))
+#model = LinearRegression()
+#model.fit(date, CO)
+#r_sq = model.score(date, CO)
+#print('intercept:', model.intercept_)
+#print('slope:', model.coef_)
+#slope, intercept, r_value, p_value, std_err = sp.stats.linregress(x,y)
+CO = numpy.asarray(CO)
+Trend = CO - numpy.mean(CO)
+plt.figure()
+plt.plot(Trend)

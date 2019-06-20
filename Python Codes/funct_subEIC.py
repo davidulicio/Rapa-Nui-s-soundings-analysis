@@ -31,7 +31,7 @@ def subplots(dCO, CO, dCO2, CO2, dP, P, dnp, nP, dnb, nb, de, e,\
     with the cleaned data
     """
     fig1, (axtco, axhco) = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
-    axtco.plot(dCO, CO)
+    axtco.plot(dCO, CO, '-o')
     axtco.set_title('CO timeseries, Easter Island')
     axtco.set_xlabel('Years')
     axtco.set_ylabel('nmol/mol (ppb)')
