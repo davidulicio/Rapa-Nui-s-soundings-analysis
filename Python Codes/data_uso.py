@@ -100,6 +100,18 @@ def meses(date, value):
             nov.append(valor)
         if m == 12:
             dic.append(valor)
+    en = np.asarray(en)
+    feb = np.asarray(feb)
+    mar = np.asarray(mar)
+    abr = np.asarray(abr)
+    may = np.asarray(may)
+    jun = np.asarray(jun)
+    jul = np.asarray(jul)
+    ag = np.asarray(ag)
+    sep = np.asarray(sep)
+    octu = np.asarray(octu)
+    nov = np.asarray(nov)
+    dic = np.asarray(dic)
     return en, feb, mar, abr, may, jun, jul, ag, sep, octu, nov, dic
 
 

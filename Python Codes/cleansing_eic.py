@@ -49,7 +49,7 @@ def hist_clean(val_fecha, val_val):
     for vl in tupla:
         valores.append(vl[0])
         fechas.append(vl[1])
-    return fechas, valores
+    return pd.DatetimeIndex(fechas), valores
     
     
 def data_cleansing(dco, co, dco2, co2, dp, p, dnP, nP, dnb, nb, de, 
