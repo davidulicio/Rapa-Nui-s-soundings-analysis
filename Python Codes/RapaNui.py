@@ -7,6 +7,7 @@ Rapa Nui Analysis
 import calendar
 import pandas as pd
 import scipy as sp
+import scipy.signal as ss
 import matplotlib.pyplot as plt
 import numpy as np
 from data_uso import data_transfer_E, prom, meses
@@ -319,8 +320,6 @@ print('COEF CO-NB: ' + repr(co_nb[1,0]))
 print('COEF CO-MP: ' + repr(co_mp[1,0]))
 print('COEF CO-MB: ' + repr(co_mb[1,0]))
 print('COEF CO-OZ: ' + repr(co_oz[1,0]))
-
-
 #%% Linear Trends
 def pol(y):
     """
@@ -680,4 +679,25 @@ plt.ylabel('pptv')
 plt.xlabel('years')
 plt.tight_layout()
 
+#%% Periodograms
 
+##Analisis con armonico
+#n=length(CO);
+#n2=n/2;
+#for k in range(1, n2):
+#    A1 = 0; B1 = 0;
+#    for t in range(1, n):
+#        A1 = A1+T(t)*cos(2*pi*k*t/n)
+#        B1 = B1+T(t)*sin(2*pi*k*t/n)
+#    A1 = 2*A1/n; B1=2*B1/n; C(k)=np.sqrt(A1**2 + B1**2)
+#    if A1>0:
+#        fi(k)=atan(B1/A1)
+#    if A1<0:
+#        i(k)=atan(B1/A1)+pi
+#    if A1==0:
+#        fi(k)=pi/2
+#
+#plt.figure(num=7, figsize=(8,6))
+#f, s = ss.periodogram(CO)
+#plt.semilogy(f, s)
+#plt.xlabel('frecuency')

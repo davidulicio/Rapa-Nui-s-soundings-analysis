@@ -75,6 +75,7 @@ def meses(date, value):
         fecha = date[i]
         valor = value[i]
         m = fecha.month
+        y = fecha.year
         #d = fecha.day  para obtener el dia en caso de necesitarlo
         if m == 1:
             en.append(valor)

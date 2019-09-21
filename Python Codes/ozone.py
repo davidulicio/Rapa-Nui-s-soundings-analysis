@@ -18,7 +18,7 @@ print ('Easter Islands Ozone Analysis')
 # Events analysis
 filenames = sorted(glob.glob('rapanui*.dat'))
 O3n = []
-FECHA =[]
+FECHA =[]; FECHA1 = []
 j = 0
 for value in filenames:
     j = j + 1
@@ -32,6 +32,7 @@ for value in filenames:
                                          O3ppbv, O3DU, u, v, th, the, Q)
     y, m, d, name = date(value)
     s = pd.Series(repr(d) + '/' + repr(m) + '/' + repr(y))
+    s1 = repr(y) + '/' + repr(m) + '/' + repr(d)
     fecha = pd.to_datetime(s, format='%d/%m/%Y')
     o3ppb = np.asarray(o3ppb)
     if j == 1:
@@ -51,9 +52,10 @@ for value in filenames:
     try:
         O3n.append(o3mean)
         FECHA.append(fecha)
+        FECHA1.append(s1)
     except:
         pass
-
+FECHA1 = pd.to_datetime(FECHA1)
 # Monthly analysis
 en, feb, mar, abr, may, jun, jul, ag, sep, octu, nov, dic = meses(FECHA, O3n)
 #year = media(en, feb, mar, abr, may, jun, jul, ag, sep, octu, nov, dic)
